@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<style>
+    .ProgressBar{
+        width: 300px;
+        height: 20px;
+        background-color:yellow;
+        position: absolute;
+    }
+    #PB2{
+        width:2px;
+        background-color:red;
+        position: relative;
+        resize: horizontal;
+        overflow: auto;
+        max-width: 300px;
+    }
+    .lyrics{
+        height: 100px;
+    }
+    audio{
+        display: none;
+    }
+    img{
+        width: 30%;
+        height: 30%;
+        margin: 100px;
+        border-radius:100%;
+    }
+    .musicAddress,.musicAddress2{
+        display: none;
+    }
+    span{
+        margin-right: 10px;
+    }
+    #line2{
+        color: red;
+    }
+</style>
+<body>
+    <div>
+        <img id="img1" src="/res/pict2.png">
+    </div>
+    <div class="lyrics">
+        <div id="line1"></div>
+        <div id="line2"></div>
+        <div id="line3"></div>
+    </div>
+    <div class="ProgressBar" id="PB1"></div>
+    <div class="ProgressBar" id="PB2"></div>
+    <div id="playTime"><span id="playTime1">0:00</span ><span id="playTime2">0:00</span></div>
+    <div id="operateBar">
+        <input type="button" id="startBtn" value="开始">
+        <input type="button" value="上一首">
+        <input type="button" value="下一首">
+    </div>
+    <div id="musicMenu">
+        <div>歌单</div>
+        <table>
+            <tr><th>编号</th><th>歌曲</th><th>作者</th><th class="musicAddress">add</th><th class="musicAddress2">add2</th></tr>
+            <tr><td>1</td><td>句号</td><td>邓紫棋</td><td class="musicAddress">/res/句号.mp3</td><td class="musicAddress2">/res/句号_help.lrc</td></tr>
+            <tr><td>2</td><td>泡沫</td><td>邓紫棋</td><td class="musicAddress">/res/泡沫.mp3</td><td class="musicAddress2">/res/泡沫_help.lrc</td></tr>
+        </table>
+    </div>
+    <audio id="play" controls>
+        </audio>
+
+        <script>
+            (function(){
+                'use strict'
+                window.$self={};
+                $self.play=document.getElementById("play");
+                $self.startFlag=false;
+                $self.routateTimer=null;
+                $self.progressBarTimer=null;
+                $self.playTimer=null;
+                let timer3;
+                let tempDeg=0;
+                //图片旋转功能
+                let rotateStart=()=>{
+                    //let deg=0;
+                    let image=document.getElementById("img1");
+                    $self.routateTimer=setInterval(()=>{
+                        image.style.transform="rotate("+tempDeg+"deg)";
+                        tempDeg+=2;
+                        if(tempDeg>360){
+                            tempDeg=0;
+                        }
+                    },30);
+                }
+                let rotateStop=()=>{
+                    clearInterval($self.routateTimer);
+                }
+                let imagePause=()=>{
+                    clearInterval($self.playTimer);
+                }
+                //进度条功能
+                let progressBarStart=()=>{
+                    let play=$self.play;
+                    let fillbar=document.getElementById("PB2");
+                    //获取当前歌曲的歌长
+                    let length=play.duration;
+                    $self.progressBarTimer=setInterval(()=>{
+                        let cur=play.currentTime;//获取当前的播放时间
+                        fillbar.style.width=""+parseFloat(cur/length)*300+"px";
+                    },50);
+
+                }
+                let progressBarStop=()=>{
+                    clearInterval($self.progressBarTimer);
+                }
+                let progressBarInit=()=>{
+                    let play=$self.play;
+                    let fillbar=document.getElementById("PB2");
+                    fillbar.onmouseup=(e)=>{
+                    let width=fillbar.style.width.replace('px','');
+                    let length=play.duration;
+                    play.currentTime=""+parseInt(width*length/300)+"";
+                    $self.LyricsIndexResrt();
+                    play.play();
+                    }
+                }
+                progressBarInit(); 
+                let progressBarReset=()=>{
+                    clearInterval($self.progressBarTimer);
+                    let fillbar=document.getElementById("PB2");
+                    fillbar.style.width="0px"
+                }
+                //时间进度功能
+                let timeTransf=(sec)=>{
+                    let minute=parseInt(sec/60);
+                    if(sec%60<10){
+                            return ""+minute+":0"+Math.round(sec%60)+"";
+                        }else{
+                            return ""+minute+":"+Math.round(sec%60)+"";
+                        }
+                }
+                let playTimeStart=()=>{
+                    let play=$self.play;
+                    let playTime=document.getElementById("playTime1");
+                    $self.playTimer=setInterval(()=>{
+                        let cur=parseInt(play.currentTime);//秒数
+                        playTime.innerHTML=timeTransf(cur);
+                    },1000);
+                }
+                let playTimeStop=()=>{
+                    clearInterval($self.playTimer);
+                }
+                let playTimeReset=()=>{
+                    clearInterval($self.playTimer);
+                    let playTime=document.getElementById("playTime1");
+                    playTime.innerText="0:00"
+                }
+                //按钮相关功能
+                let buttonInit=()=>{
+                    let startBtn=document.getElementById("startBtn");
+                    $self.startFlag=false;
+                    startBtn.addEventListener('click',()=>{
+                        $self.startFlag=!$self.startFlag;
+                        $self.start();
+                        startBtn.value=$self.startFlag==true?'暂停':'开始';
+                    })
+                }
+                let buttonReset=()=>{
+                    let startBtn=document.getElementById("startBtn");
+                    $self.startFlag=false;
+                    startBtn.value='开始';
+                }
+                buttonInit();
+                //初始化相关功能
+                let loadMusic=(src)=>{
+                    $self.play.src=src;
+                }
+                let timeSet=()=>{
+                    let playEl=$self.play;
+                    playEl.oncanplay=()=>{
+                            let TimeEl=document.getElementById('playTime2');
+                            let length=playEl.duration
+                            TimeEl.innerText=timeTransf(length);
+                        }
+                }
+                timeSet();
+                let musicMenuInit=()=>{
+                    //let trOnClick=()=>{};
+                    let table = document.getElementById("musicMenu");
+                    let trs = table.getElementsByTagName("tr");
+                    table.ondblclick=(e)=>{
+                        $self.reset();
+                        let tdEl=e.target;
+                        let trEl=tdEl.parentNode;
+                        for (var i = 0; i < trs.length; i++) {
+                            if (trs[i] == trEl) {  //判断是不是当前选择的行
+                                trs[i].style.background = "yellow";
+                                let address=trs[i].getElementsByTagName('td')[3].innerText;
+                                loadMusic(address);
+                                let address2=trs[i].getElementsByTagName('td')[4].innerText;
+                                $self.getLRC(address2);
+                            }
+                            else {
+                                trs[i].style.background = "white";
+                            }
+                        }
+                        $self.showLyrics();
+                    }
+                };
+                musicMenuInit();
+                let audioComponentInit=()=>{
+                    $self.play.onended=()=>{
+                        $self.reset();
+                        //$self.play.currentTime=0;
+                        $self.startFlag=true;
+                        $self.showLyrics();
+                        $self.start();
+                    }
+                }
+                audioComponentInit();
+                //歌词相关功能
+                let createLrcObj=(lrc)=> {
+                    let oLRC = {
+                        ti: "", //歌曲名
+                        ar: "", //演唱者
+                        al: "", //专辑名
+                        by: "", //歌词制作人
+                        offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
+                        ms: [] //歌词数组{t:时间,c:歌词}
+                    };
+                    if(lrc.length==0) return;
+                    var lrcs = lrc.split('\n');//用回车拆分成数组
+                    for(var i in lrcs) {//遍历歌词数组
+                        lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, ""); //去除前后空格
+                        var t = lrcs[i].substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"));//取[]间的内容
+                        var s = t.split(":");//分离:前后文字
+                        if(isNaN(parseInt(s[0]))) { //不是数值
+                            for (var i in oLRC) {
+                                if (i != "ms" && i == s[0].toLowerCase()) {
+                                    oLRC[i] = s[1];
+                                }
+                            }
+                        }else { //是数值
+                            var arr = lrcs[i].match(/\[(\d+:.+?)\]/g);//提取时间字段，可能有多个
+                            var start = 0;
+                            for(var k in arr){
+                                start += arr[k].length; //计算歌词位置
+                            }
+                            var content = lrcs[i].substring(start);//获取歌词内容
+                            for (var k in arr){
+                                var t = arr[k].substring(1, arr[k].length-1);//取[]间的内容
+                                var s = t.split(":");//分离:前后文字
+                                oLRC.ms.push({//对象{t:时间,c:歌词}加入ms数组
+                                    t: (parseFloat(s[0])*60+parseFloat(s[1])).toFixed(3),
+                                    c: content
+                                });
+                            }
+                        }
+                    }
+                    oLRC.ms.sort(function (a, b) {//按时间顺序排序
+                        return a.t-b.t;
+                    });
+                    return oLRC;
+                    /*
+                    for(var i in oLRC){ //查看解析结果
+                        console.log(i,":",oLRC[i]);
+                    }*/
+
+                }
+
+                //获取歌词
+                $self.getLRC=(url)=>{
+                    let ajax=new XMLHttpRequest();
+                    ajax.open('GET',url);
+                    ajax.onreadystatechange=()=>{
+                        if(ajax.readyState==4&&ajax.status==200){
+                            let text=ajax.responseText;
+                            $self.lrcObj=createLrcObj(text);
+                        }
+                    }
+                    ajax.send(null);
+                }
+                
+                $self.showLyrics=()=>{
+                    clearInterval($self.lyricsTimer);
+                    let el1 = document.getElementById("line1");
+                    let el2 = document.getElementById("line2");
+                    let el3 = document.getElementById("line3");
+                    $self.lyricsIndex=2;
+                    $self.lyricsTimer=setInterval(()=>{
+                        if(!$self.startFlag){
+                            return;
+                        }
+                        let cur=$self.play.currentTime;//秒数
+                        if($self.lyricsIndex>($self.lrcObj.ms.length-1)){
+                            return;
+                        }
+                        if(cur>$self.lrcObj.ms[$self.lyricsIndex]['t']){
+                            $self.lyricsIndex++;
+                        }
+                        el1.innerText=$self.lrcObj.ms[$self.lyricsIndex-2]['c']
+                        el2.innerText=$self.lrcObj.ms[$self.lyricsIndex-1]['c']
+                        el3.innerText=$self.lrcObj.ms[$self.lyricsIndex]['c']
+                        
+                    },200);
+
+                }
+
+                $self.LyricsIndexResrt=()=>{
+                    let arr=$self.lrcObj.ms;
+                    let cur=$self.play.currentTime;
+                    for(let i=2;i<arr.length-1;i++){
+                        if((cur>arr[i]['t'])&&(cur<=arr[i+1]['t'])){
+                            $self.lyricsIndex=i;
+                            break;
+                        }
+                    }
+                }
+
+                // $self.showLyrics=()=>{
+                //     let el1 = document.getElementById("line1");
+                //     let el2 = document.getElementById("line2");
+                //     let el3 = document.getElementById("line3");
+                //     let index1=0;
+                //     let index2=1;
+                //     let index3=2;
+                //     $self.lyricsTimer=setInterval(()=>{
+                //         let cur=$self.play.currentTime;//秒数
+                //         if(cur>$self.lrcObj.ms[index2]['t']){
+                //             index1++;
+                //             index2++;
+                //             index3++;
+                //         }
+                //         el1.innerText=$self.lrcObj.ms[index1]['c']
+                //         el2.innerText=$self.lrcObj.ms[index2]['c']
+                //         el3.innerText=$self.lrcObj.ms[index3]['c']
+                        
+                //     },1000);
+
+                // }
+
+                let defaultSelect=()=>{
+                    let table = document.getElementById("musicMenu");
+                    let trs = table.getElementsByTagName("tr");
+                    let trEl=trs[1];
+                    
+                }
+                $self.start=()=>{
+                    if($self.startFlag){
+                        rotateStart();
+                        progressBarStart();
+                        playTimeStart();
+                        play.play();
+                    }else{
+                        rotateStop();
+                        progressBarStop();
+                        playTimeStop();
+                        play.pause();
+                    }
+                }
+                $self.reset=()=>{
+                    if($self.startFlag){
+                        $self.startFlag=false;
+                        rotateStop();
+                        progressBarReset();
+                        playTimeReset();
+                        buttonReset();
+                        play.pause();
+                    }else{
+                        rotateStop();
+                        progressBarReset();
+                        playTimeReset();
+                        buttonReset();
+                    }
+                }
+            })();
+        </script>
+</body>
+</html>
