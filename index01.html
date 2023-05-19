@@ -62,9 +62,10 @@
     <div id="musicMenu">
         <div>歌单</div>
         <table>
-            <tr><th>编号</th><th>歌曲</th><th>作者</th><th class="musicAddress">add</th><th class="musicAddress2">add2</th></tr>
-            <tr><td>1</td><td>句号</td><td>邓紫棋</td><td class="musicAddress">res/句号.mp3</td><td class="musicAddress2">res/句号_help.lrc</td></tr>
-            <tr><td>2</td><td>泡沫</td><td>邓紫棋</td><td class="musicAddress">res/泡沫.mp3</td><td class="musicAddress2">res/泡沫_help.lrc</td></tr>
+            <tr><th>编号</th><th>歌曲</th><th>作者</th><th class="musicAddress">add</th><th class="musicAddress2">add2</th><th >btn</th></tr>
+            <tr><td>1</td><td>句号</td><td>邓紫棋</td><td class="musicAddress">res/句号.mp3</td><td class="musicAddress2">res/句号_help.lrc</td><td ><input type="button" value="选择"></td></tr>
+
+            <tr><td>2</td><td>泡沫</td><td>邓紫棋</td><td class="musicAddress">res/泡沫.mp3</td><td class="musicAddress2">res/泡沫_help.lrc</td><td ><input type="button" value="选择"></td></tr>
         </table>
     </div>
     <audio id="play" controls>
@@ -189,9 +190,8 @@
                     //let trOnClick=()=>{};
                     let table = document.getElementById("musicMenu");
                     let trs = table.getElementsByTagName("tr");
-                    table.ondblclick=(e)=>{
+                    let selectSet=(tdEl)=>{
                         $self.reset();
-                        let tdEl=e.target;
                         let trEl=tdEl.parentNode;
                         for (var i = 0; i < trs.length; i++) {
                             if (trs[i] == trEl) {  //判断是不是当前选择的行
@@ -207,6 +207,15 @@
                         }
                         $self.showLyrics();
                     }
+                    table.onclick=(e)=>{
+                        let tdEl=e.target.parentNode
+                        selectSet(tdEl);
+                    }
+                    table.ondblclick=(e)=>{
+                        let tdEl=e.target;
+                        selectSet(tdEl);
+                    }
+                    
                 };
                 musicMenuInit();
                 let audioComponentInit=()=>{
