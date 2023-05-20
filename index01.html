@@ -173,9 +173,80 @@
                     startBtn.value='开始';
                 }
                 buttonInit();
+                //indexDB相关操作
+                let loadDB=()=>{
+                    
+                }
+                $self.getDataInDB=(src)=>{
+                    let dataId=src.replace('.mp3','')
+                    let dbName='MusicDemo01';
+                    let dbVersion=1;
+                    let db;
+                    let openResult=window.indexedDB.open(dbName,dbVersion);
+                    openResult.onerror=()=>{
+                        console.error('indexDB打开失败！');
+                    }
+                    openResult.onsuccess=()=>{
+                        db=openResult.result;
+                        let objectStore=db.transaction([dbName],'readwrite').objectStore(dbName);
+                        let getResult=objectStore.get(dataId);
+                        getResult.onsuccess=(event)=>{
+                            if(getResult.result==null){
+                                $self.loadMusic(src);
+                            }else{
+                                let blob=getResult.result['blob'];
+                                console.log('从indexDB加载数据')
+                                $self.play.setAttribute('src',blob);
+                            }
+                        }
+                    }
+                    openResult.onupgradeneeded=(event)=>{
+                        db=event.target.result;
+                        let objectStore=db.createObjectStore(dbName,{keyPath:'id'});
+                        objectStore.createIndex('id','id',{unique:true});
+                        objectStore.createIndex('blob','blob');
+                    }
+                }
+                $self.saveDataInDB=(src,blob)=>{
+                    let dataId=src.replace('.mp3','')
+                    let dbName='MusicDemo01';
+                    let dbVersion=1;
+                    let db;
+                    let openResult=window.indexedDB.open(dbName,dbVersion);
+                    openResult.onerror=()=>{
+                        console.error('indexDB打开失败！');
+                    }
+                    openResult.onsuccess=()=>{
+                        db=openResult.result;
+                        let objectStore=db.transaction([dbName],'readwrite').objectStore(dbName);
+                        objectStore.add({id:dataId,blob:blob});
+                        
+                    }
+                    openResult.onupgradeneeded=(event)=>{
+                        db=event.target.result;
+                        let objectStore=db.createObjectStore(dbName,{keyPath:'id'});
+                        objectStore.createIndex('id','id',{unique:true});
+                        objectStore.createIndex('blob','blob');
+                    }
+                }
                 //初始化相关功能
-                let loadMusic=(src)=>{
-                    $self.play.src=src;
+                $self.loadMusic=(src)=>{
+                    let ajax=new XMLHttpRequest();
+                    let fileReader =new FileReader();
+                    ajax.open('GET',src);
+                    ajax.responseType='blob';
+                    ajax.onreadystatechange=()=>{
+                        if(ajax.readyState==4&&ajax.status==200){
+                            let result=ajax.response;
+                            fileReader.onload=(evt)=>{
+                                let blob=evt.target.result;
+                                $self.play.setAttribute('src',blob);
+                                $self.saveDataInDB(src,blob);
+                            }
+                            fileReader.readAsDataURL(result);
+                        }
+                    }
+                    ajax.send(null);
                 }
                 let timeSet=()=>{
                     let playEl=$self.play;
@@ -197,7 +268,7 @@
                             if (trs[i] == trEl) {  //判断是不是当前选择的行
                                 trs[i].style.background = "yellow";
                                 let address=trs[i].getElementsByTagName('td')[3].innerText;
-                                loadMusic(address);
+                                $self.getDataInDB(address);
                                 let address2=trs[i].getElementsByTagName('td')[4].innerText;
                                 $self.getLRC(address2);
                             }
