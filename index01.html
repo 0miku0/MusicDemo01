@@ -246,12 +246,13 @@
                                 $self.play.setAttribute('src',blob);
                                 $self.saveDataInDB(src,blob);
                             }
-                            fileReader.onprogress=(event)=>{
-                                let t=(event.loaded/dataSize*100).toFixed(2)+'%';
-                                playLoad.innerText=t;
-                            }
                             fileReader.readAsDataURL(result);
                         }
+                    }
+                    ajax.onprogress=(event)=>{
+                        let dataSize=event.total;
+                        let t=(event.loaded/dataSize*100).toFixed(2)+'%';
+                        playLoad.innerText=t;
                     }
                     ajax.send(null);
                 }
@@ -380,7 +381,7 @@
                             return;
                         }
                         let cur=$self.play.currentTime;//秒数
-                        if($self.lyricsIndex>($self.lrcObj.ms.length-1)){
+                        if($self.lyricsIndex>=($self.lrcObj.ms.length-1)){
                             return;
                         }
                         if(cur>$self.lrcObj.ms[$self.lyricsIndex]['t']){
