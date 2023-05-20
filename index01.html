@@ -53,7 +53,7 @@
     </div>
     <div class="ProgressBar" id="PB1"></div>
     <div class="ProgressBar" id="PB2"></div>
-    <div id="playTime"><span id="playTime1">0:00</span ><span id="playTime2">0:00</span></div>
+    <div id="playTime"><span id="playTime1">0:00</span ><span id="playTime2">0:00</span><span id="playLoad">0%</span></div>
     <div id="operateBar">
         <input type="button" id="startBtn" value="开始">
         <input type="button" value="上一首">
@@ -174,10 +174,9 @@
                 }
                 buttonInit();
                 //indexDB相关操作
-                let loadDB=()=>{
-                    
-                }
                 $self.getDataInDB=(src)=>{
+                    let playLoad=document.getElementById('playLoad');
+                    playLoad.innerText='0%';
                     let dataId=src.replace('.mp3','')
                     let dbName='MusicDemo01';
                     let dbVersion=1;
@@ -195,6 +194,7 @@
                                 $self.loadMusic(src);
                             }else{
                                 let blob=getResult.result['blob'];
+                                playLoad.innerText='100%';
                                 console.log('从indexDB加载数据')
                                 $self.play.setAttribute('src',blob);
                             }
@@ -231,6 +231,7 @@
                 }
                 //初始化相关功能
                 $self.loadMusic=(src)=>{
+                    let playLoad=document.getElementById('playLoad');
                     let ajax=new XMLHttpRequest();
                     let fileReader =new FileReader();
                     ajax.open('GET',src);
@@ -238,10 +239,16 @@
                     ajax.onreadystatechange=()=>{
                         if(ajax.readyState==4&&ajax.status==200){
                             let result=ajax.response;
-                            fileReader.onload=(evt)=>{
-                                let blob=evt.target.result;
+                            let dataSize=result.size;
+                            //console.log(result);
+                            fileReader.onload=(event)=>{
+                                let blob=event.target.result;
                                 $self.play.setAttribute('src',blob);
                                 $self.saveDataInDB(src,blob);
+                            }
+                            fileReader.onprogress=(event)=>{
+                                let t=(event.loaded/dataSize*100).toFixed(2)+'%';
+                                playLoad.innerText=t;
                             }
                             fileReader.readAsDataURL(result);
                         }
