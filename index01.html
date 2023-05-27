@@ -62,10 +62,11 @@
     <div id="musicMenu">
         <div>歌单</div>
         <table>
-            <tr><th>编号</th><th>歌曲</th><th>作者</th><th class="musicAddress">add</th><th class="musicAddress2">add2</th><th >btn</th></tr>
+            <!-- <tr><th>编号</th><th>歌曲</th><th>作者</th><th class="musicAddress">add</th><th class="musicAddress2">add2</th><th >btn</th></tr>
             <tr><td>1</td><td>句号</td><td>邓紫棋</td><td class="musicAddress">res/句号.mp3</td><td class="musicAddress2">res/句号_help.lrc</td><td ><input type="button" value="选择"></td></tr>
 
             <tr><td>2</td><td>泡沫</td><td>邓紫棋</td><td class="musicAddress">res/泡沫.mp3</td><td class="musicAddress2">res/泡沫_help.lrc</td><td ><input type="button" value="选择"></td></tr>
+            <tr><td>3</td><td>OneMoreTime</td><td>安田</td><td class="musicAddress">res/OneMoreTime.mp3</td><td class="musicAddress2">res/OneMoreTime.lrc</td><td ><input type="button" value="选择"></td></tr> -->
         </table>
     </div>
     <audio id="play" controls>
@@ -82,6 +83,21 @@
                 $self.playTimer=null;
                 let timer3;
                 let tempDeg=0;
+                //初始化歌曲列表
+                let tableInit=()=>{
+                    let table=document.querySelector('#musicMenu>table');
+                    let data=[
+                        {name:'泡沫',writter:'邓紫棋',address:'res/泡沫.mp3',address2:'res/泡沫_help.lrc'},
+                        {name:'句号',writter:'邓紫棋',address:'res/句号.mp3',address2:'res/句号_help.lrc'},
+                        {name:'OneMoreTime',writter:'安田',address:'res/OneMoreTime.mp3',address2:'res/OneMoreTime.lrc'},
+                        {name:'icicles',writter:'miku',address:'res/icicles.mp3',address2:'res/icicles.lrc'}];0
+                    let htmlStr='<tr><th>编号</th><th>歌曲</th><th>作者</th><th     class="musicAddress">add</th><th class="musicAddress2">add2</th><th >btn</th></tr>';
+                    for(let i=0;i<data.length;i++){
+                        htmlStr+=` <tr><td>${i+1}</td><td>${data[i].name}</td><td>${data[i].writter}</td><td class="musicAddress">${data[i].address}</td><td class="musicAddress2">${data[i].address2}</td><td ><input type="button" value="选择"></td></tr> `
+                    }
+                    table.innerHTML=htmlStr;
+                }
+                tableInit();
                 //图片旋转功能
                 let rotateStart=()=>{
                     //let deg=0;
@@ -235,6 +251,7 @@
                     let ajax=new XMLHttpRequest();
                     let fileReader =new FileReader();
                     ajax.open('GET',src);
+                    ajax.setRequestHeader('Access-Control-Allow-Origin','*')
                     ajax.responseType='blob';
                     ajax.onreadystatechange=()=>{
                         if(ajax.readyState==4&&ajax.status==200){
@@ -361,6 +378,7 @@
                 $self.getLRC=(url)=>{
                     let ajax=new XMLHttpRequest();
                     ajax.open('GET',url);
+                    ajax.setRequestHeader('Access-Control-Allow-Origin','*')
                     ajax.onreadystatechange=()=>{
                         if(ajax.readyState==4&&ajax.status==200){
                             let text=ajax.responseText;
