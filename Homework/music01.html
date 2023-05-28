@@ -1,212 +1,355 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <!-- import CSS -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <style>
-    .mainDiv{
-      width: 1200px;
-      margin: 0 auto;
-    }
-    a{
-      text-decoration: none;
-      color:#333
-    }
-    li>.is-active{
-      background-color: #333 ;
-    }
-    .el-menu-demo02>.el-menu-item{
-      height:35px;
-      line-height: 35px;
-    }
-    .line{
-      margin: 0 10px;
-      color: #ccc;
-    }
-    .card-topbar a{
-      color:#666;
-    }
+  .mainDiv {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: #333
+  }
+
+  li {
+    list-style: none;
+  }
+
+  li>.is-active {
+    background-color: #333;
+  }
+
+  .el-menu-demo02>.el-menu-item {
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .line {
+    margin: 0 10px;
+    color: #ccc;
+  }
+
+  .card-topbar a {
+    color: #666;
+  }
+
+  .carousel2 {
+    /* margin-top: 28px; */
+    /* margin-left: 20px; */
+  }
+
+  .carousel2 .el-col div {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin-bottom: 7px;
+  }
+
+  .userLoginCard .el-card__body {
+    padding: 0;
+  }
 </style>
+
 <body>
   <div id="music01">
-    <el-container  >
-        <el-header style="min-width: 1200px; height: 100px; padding: 0;" >
-          <div style="background-color: #242424;color: #fff; padding: 0 10px;">
-            <el-row class="mainDiv">
-              <el-col :span="4">
-                <!-- url(../../style/web2/img/frame/topbar.png?ce7db647270c80ced89d18ddf9bb2667) no-repeat 0 9999px -->
-                <h1 style="width:176px ;height: 61px;font-size:100% ;background: url(res/topbar.png) no-repeat;background-position: 0 0px; margin: 0;" >
-                  <a hidefocus="true" href=""  style="display: block; color: #333; width:157px;height: 100%;"></a>
-                </h1>
-              </el-col>
-              <el-col :span="12">
-                <el-menu  style="border: 0;"                 
-                  class="el-menu-demo"
-                  mode="horizontal"            
-                  background-color="#242424"
-                  text-color="#ccc"
-                  active-text-color="#fff"
-                  default-active="1">
-                  <el-menu-item index="1">发现音乐</el-menu-item>
-                  <el-menu-item index="2">我的音乐</el-menu-item>                  
-                  <el-menu-item index="3" >关注</el-menu-item>
-                  <el-menu-item index="4" >商城</el-menu-item>
-                  <el-menu-item index="5" >音乐人</el-menu-item>
-                  <el-menu-item index="6" >下载客户端</el-menu-item>
-                </el-menu>
+    <el-container>
+      <el-header style="min-width: 1200px; height: 100px; padding: 0;">
+        <div style="background-color: #242424;color: #fff; padding: 0 10px;">
+          <el-row class="mainDiv" type="flex" style="align-items: center;">
+            <el-col :span="4">
+              <!-- url(../../style/web2/img/frame/topbar.png?ce7db647270c80ced89d18ddf9bb2667) no-repeat 0 9999px -->
+              <h1
+                style="width:176px ;height: 61px;font-size:100% ;background: url(res/topbar.png) no-repeat;background-position: 0px -5px; margin: 0;">
+                <a hidefocus="true" href="" style="display: block; color: #333; width:157px;height: 100%;"></a>
+              </h1>
+            </el-col>
+            <el-col :span="12">
+              <el-menu style="border: 0;" class="el-menu-demo" mode="horizontal" background-color="#242424"
+                text-color="#ccc" active-text-color="#fff" default-active="1">
+                <el-menu-item index="1">发现音乐</el-menu-item>
+                <el-menu-item index="2">我的音乐</el-menu-item>
+                <el-menu-item index="3">关注</el-menu-item>
+                <el-menu-item index="4">商城</el-menu-item>
+                <el-menu-item index="5">音乐人</el-menu-item>
+                <el-menu-item index="6">下载客户端</el-menu-item>
+              </el-menu>
 
-              </el-col>
-              <el-col :span="8">3</el-col>
-            </el-row>
+            </el-col>
+            <el-col :span="8">
+              <div>
+                搜索栏未实现
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+        <div style="height:35px;background-color: #C20C0C;color: #fff; padding: 0 10px">
+          <el-row class="mainDiv">
+            <el-col :span="4">
+              &nbsp;
+            </el-col>
+            <el-col :span="20">
+              <el-menu style="border: 0;height:35px" class="el-menu-demo02" mode="horizontal" background-color="#C20C0C"
+                text-color="#fff" active-text-color="#fff" default-active="1">
+                <el-menu-item index="1">推荐</el-menu-item>
+                <el-menu-item index="2">排行榜</el-menu-item>
+                <el-menu-item index="3">歌单</el-menu-item>
+                <el-menu-item index="4">主播电台</el-menu-item>
+                <el-menu-item index="5">歌手</el-menu-item>
+                <el-menu-item index="6">新碟上架</el-menu-item>
+              </el-menu>
+            </el-col>
+          </el-row>
+        </div>
+
+      </el-header>
+      <el-main>
+        <el-card :style="{'background-image': `url(${carouselArr[carouselIndex]['add2']})`}"
+          style=" background-size: 6000px; background-position: center center;">
+          <div style="width: 982px;height: 285px; margin: 0 auto;" class="block">
+            <el-carousel trigger="click" height="285px" arrow="always" @change="change1">
+              <el-carousel-item v-for="(item,index) in carouselArr" :key="index">
+                <a href="" target>
+                  <img :src="item.add" alt="" style="width: 730px;">
+                </a>
+              </el-carousel-item>
+            </el-carousel>
           </div>
-          <div style="height:35px;background-color: #C20C0C;color: #fff; padding: 0 10px">
-            <el-row class="mainDiv">
-              <el-col :span="4">
-                &nbsp;
-              </el-col>
-              <el-col :span="20">
-                <el-menu   style="border: 0;height:35px"                 
-                  class="el-menu-demo02"
-                  mode="horizontal"            
-                  background-color="#C20C0C"
-                  text-color="#fff"
-                  active-text-color="#fff"
-                  default-active="1">
-                  <el-menu-item index="1" >推荐</el-menu-item>
-                  <el-menu-item index="2">排行榜</el-menu-item>                  
-                  <el-menu-item index="3" >歌单</el-menu-item>
-                  <el-menu-item index="4" >主播电台</el-menu-item>
-                  <el-menu-item index="5" >歌手</el-menu-item>
-                  <el-menu-item index="6" >新碟上架</el-menu-item>
-                </el-menu>
-              </el-col>
-            </el-row>
-          </div>
-          
-        </el-header>
-        <el-main>
-          <el-card  :style="{'background-image': `url(${carouselArr[carouselIndex]['add2']})`}" style=" background-size: 6000px; background-position: center center;">
-            <div style="width: 982px;height: 285px; margin: 0 auto;" class="block">
-              <el-carousel trigger="click" height="285px" arrow="always" @change="change1">
-                <el-carousel-item v-for="(item,index) in carouselArr" :key="index">
-                  <a href="" target>
-                    <img :src="item.add" alt="" style="width: 730px;">
-                  </a>
-                </el-carousel-item>
-              </el-carousel>
-            </div>
-          </el-card>
-          <el-card >
-            <el-row style="width: 982px; margin: 0 auto;">
-              <el-col :span="18">
-                <el-card style="font-size: 12px;">
-                  <el-row type="flex" align="middle" style="font-size: 12px;padding: 0 10px 0 34px; background-image: url(res/bar2.png); background-repeat: no-repeat; background-position: -225px -156px; border-bottom: 2px solid #C10D0C;" class="card-topbar">
-                    <el-col :span="4">
-                      <a  href="" style="font-size: 20px; line-height: 28px;color: #333;">热门推荐</a>
-                    </el-col>
-                    <el-col :span="16" >
-                      <a href="">华语</a>
-                      <span class="line">|</span>
-                      <a href="">流行</a>
-                      <span class="line">|</span>
-                      <a href="">摇滚</a>
-                      <span class="line">|</span>
-                      <a href="">民谣</a>
-                      <span class="line">|</span>
-                      <a href="">电子</a>
-                    </el-col>
-                    <el-col :span="4" style="text-align: end;">
-                      <span >
-                        <a href="">更多</a>
-                        <i style="width: 12px; height: 12px;display: inline-block; background-image: url(res/bar2.png); background-repeat: no-repeat; background-position: 0px -238px;">&nbsp;</i>
-                      </span>
-                    </el-col>
-                  </el-row>
-                  <el-row style="margin-top: 10px;">
-                    <el-col :span="6" v-for="(item,index) in recommendArr" :key="index">
-                      <div :style="{'background-image':`url(${item['backgroundImage']})`}"    style="width: 140px;height: 140px; display: flex;flex-direction: column; align-items: end;">
-                        <a href="" style="width: 100%;height: 129px;display: inline-block;"></a>
-                        <div style="width: 100%;height: 27px;padding-top: 5px;box-sizing: border-box; display: flex;justify-content: space-between;background-image: url(res/bar3.png);background-position: 0 -537px;">
-                          <span>
-                            <span style="width: 14px; height: 11px;display: inline-block;margin:0 5px 0 10px; background-image: url(res/bar4.png);background-position: 0 -24px;"></span>
-                            <span style="color: #ccc;">{{item.count}}</span>
-                          </span>
-                          <a href="" style="width: 16px;height: 16px;margin-right: 10px; display: inline-block;background-image: url(res/bar4.png); background-position: 0 0; "></a>
-                        </div>
+        </el-card>
+        <el-card>
+          <el-row style="width: 982px; margin: 0 auto;">
+            <el-col :span="18">
+              <el-card style="font-size: 12px;">
+                <el-row type="flex" align="middle"
+                  style="font-size: 12px;padding: 0 10px 0 34px; background-image: url(res/bar2.png); background-repeat: no-repeat; background-position: -225px -156px; border-bottom: 2px solid #C10D0C;"
+                  class="card-topbar">
+                  <el-col :span="4">
+                    <a href="" style="font-size: 20px; line-height: 28px;color: #333;">热门推荐</a>
+                  </el-col>
+                  <el-col :span="16">
+                    <a href="">华语</a>
+                    <span class="line">|</span>
+                    <a href="">流行</a>
+                    <span class="line">|</span>
+                    <a href="">摇滚</a>
+                    <span class="line">|</span>
+                    <a href="">民谣</a>
+                    <span class="line">|</span>
+                    <a href="">电子</a>
+                  </el-col>
+                  <el-col :span="4" style="text-align: end;">
+                    <span>
+                      <a href="">更多</a>
+                      <i
+                        style="width: 12px; height: 12px;display: inline-block; background-image: url(res/bar2.png); background-repeat: no-repeat; background-position: 0px -238px;">&nbsp;</i>
+                    </span>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 10px;">
+                  <el-col :span="6" v-for="(item,index) in recommendArr" :key="index">
+                    <div :style="{'background-image':`url(${item['backgroundImage']})`}"
+                      style="width: 140px;height: 140px; display: flex;flex-direction: column; align-items: end;">
+                      <a href="" style="width: 100%;height: 129px;display: inline-block;"></a>
+                      <div
+                        style="width: 100%;height: 27px;padding-top: 5px;box-sizing: border-box; display: flex;justify-content: space-between;background-image: url(res/bar3.png);background-position: 0 -537px;">
+                        <span>
+                          <span
+                            style="width: 14px; height: 11px;display: inline-block;margin:0 5px 0 10px; background-image: url(res/bar4.png);background-position: 0 -24px;"></span>
+                          <span style="color: #ccc;">{{item.count}}</span>
+                        </span>
+                        <a href=""
+                          style="width: 16px;height: 16px;margin-right: 10px; display: inline-block;background-image: url(res/bar4.png); background-position: 0 0; "></a>
                       </div>
-                      <p>
-                        <a href="" style="font-size: 14px;max-width: 100%;">
-                          {{item.introduce}}
-                        </a> 
-                      </p>
-                      <!-- <a href="" style="width: 140px;height: 140px; background-image: url(res/p1_1.jpg); display: flex;align-items: end;">
+                    </div>
+                    <p>
+                      <a href="" style="font-size: 14px;max-width: 100%;">
+                        {{item.introduce}}
+                      </a>
+                    </p>
+                    <!-- <a href="" style="width: 140px;height: 140px; background-image: url(res/p1_1.jpg); display: flex;align-items: end;">
                         
                        
                       </a> -->
-                      
-                    </el-col>
-                    <el-col :span="6"></el-col>
-                    <el-col :span="6"></el-col>
-                    <el-col :span="6"></el-col>
-                  </el-row>
-                </el-card>
-                <el-card>
-                  新碟上架
-                </el-card>
-                <el-card>
-                  榜单
-                </el-card>
-              </el-col>
-              <el-col :span="6">
-                <el-card>
-                  用户登录
-                </el-card>
-                <el-card>
-                  入驻歌手
-                </el-card>
-                <el-card>
-                  热门主播
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-card>
-          
-        </el-main>
-        
-        <el-footer>Footer</el-footer>
-    </el-container>
-    </div>
-</body>
-  <!-- import Vue before Element -->
-  <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
-  <!-- import JavaScript -->
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script>
-    let v1=new Vue({
-      el: '#music01',
-      data: function() {
-        return { 
-          visible: false,
-          carouselArr:[
-            {add:"res/p1.jpg",add2:"res/p1_background.jpg"},
-            {add:"res/p2.jpg",add2:"res/p2_background.jpg"},
-            {add:"res/p3.jpg",add2:"res/p3_background.jpg"}],
-          carouselIndex:0,
-          recommendArr:[
-            {backgroundImage:'res/p1_1.jpg',count:'3511万',introduce:'温柔英文歌-睡觉专用'},
-            {backgroundImage:'res/p1_2.jpg',count:'3111万',introduce:'『国摇』一百支乐队一百种精神信仰'},
-            {backgroundImage:'res/p1_3.jpg',count:'1222万',introduce:'百首老歌：再续当年情'},
-            {backgroundImage:'res/p1_4.jpg',count:'2333万',introduce:'成长篇 | 认识到自己的平凡，并且接受'}]
-        }
-      },
-      methods:{
-        change1:(curIndex,nextIndex)=>{
-          v1.carouselIndex=curIndex;
-        }
-      }
-    })
-  </script>
-</html>
 
+                  </el-col>
+                  <el-col :span="6"></el-col>
+                  <el-col :span="6"></el-col>
+                  <el-col :span="6"></el-col>
+                </el-row>
+              </el-card>
+              <el-card>
+                <el-row type="flex" align="middle"
+                  style="font-size: 12px;padding: 0 10px 0 34px; background-image: url(res/bar2.png); background-repeat: no-repeat; background-position: -225px -156px; border-bottom: 2px solid #C10D0C;"
+                  class="card-topbar">
+                  <el-col :span="4">
+                    <a href="" style="font-size: 20px; line-height: 28px;color: #333;">新碟上架</a>
+                  </el-col>
+                  <el-col :span="16">
+
+                  </el-col>
+                  <el-col :span="4" style="text-align: end;">
+                    <span>
+                      <a href="">更多</a>
+                      <i
+                        style="width: 12px; height: 12px;display: inline-block; background-image: url(res/bar2.png); background-repeat: no-repeat; background-position: 0px -238px;">&nbsp;</i>
+                    </span>
+                  </el-col>
+                </el-row>
+                <div style="margin-top:20px ;padding:28px 0 0px 0px; background-color: #f5f5f5; ">
+                  <el-carousel trigger="click" height="184px" arrow="always" class="carousel2">
+                    <el-carousel-item v-for="(item,index) in carouselArr2" :key="index">
+                      <!-- <a href="" target>
+                        <img :src="item.add" alt="" style="width: 730px;">
+                      </a> -->
+                      <el-row>
+                        <el-col :style="{'padding-left':`${item2.padding_left}px`}" v-for="(item2,index2) in item"
+                          :key="index2" :span='item2.span'>
+                          <div>
+                            <img :src="item2.imgSrc" alt="">
+                            <a href=""
+                              style=" display: inline-block; width: 118px; height: 100px;position: absolute;left: 0; top: 0;background-image: url(res/bar3.png); background-position:0 -570px"></a>
+                            <a href="http://www.baidu.com"
+                              style="background-image:url(res/bar4.png);background-position:0 -85px; display: inline-block; width: 22px; height: 22px;position: absolute;right: 10px; bottom: 5px;"></a>
+                          </div>
+                          <p
+                            style="width: 90px;line-height:18px;margin: 0; overflow: hidden;word-wrap: normal;white-space: nowrap ;font-size:12px;font-family: Arial, Helvetica, sans-serif;">
+                            <a href="">{{item2.introduce}}</a>
+                          </p>
+                          <p
+                            style="width: 90px;line-height:18px; margin: 0;overflow: hidden;word-wrap: normal;white-space: nowrap ;font-size:12px;font-family: Arial, Helvetica, sans-serif;">
+                            <a href="" style="color:#666">{{item2.writter}}</a>
+                          </p>
+                        </el-col>
+
+                      </el-row>
+
+
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
+
+              </el-card>
+              <el-card>
+                榜单
+              </el-card>
+            </el-col>
+            <el-col :span="6">
+              <el-card class="userLoginCard"
+                style="height: 126px; background-image:url(res/bar2.png);background-position:0 0">
+                <p style="font-size: 12px;width: 205px;margin: 0 auto;padding: 16px 0;">登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
+                </p>
+                <a href=""
+                  style="display: block; margin: 0 auto;width:100px;height:31px;text-align:center;line-height: 31px;color:#fff;background-image:url(res/bar2.png);background-position:0 -195px;text-shadow: 0 1px 0 #8a060b;">用户登录</a>
+              </el-card>
+              <el-card>
+                <div style="display: flex;justify-content: space-between;">
+                  <!-- <h3 style="font-weight: bold;">入驻歌手</h3> -->
+                  <div style="font-weight: bold;font-size: 12px;">入驻歌手</div>
+                  <a href="" style="font-weight: normal;font-size: 12px;color:#666">查看全部></a>
+                </div>
+                <ul style="padding: 0; margin: 6px 0 14px 0px;">
+                  <li v-for="(item,index) in writterArr" style="background-color:#fafafa;margin-top: 14px;">
+                    <a href="" style="display: flex;">
+                      <img :src="item.imgSrc" alt="" style="width: 62px; height: 62px;">
+                      <div
+                        style="text-align:start;padding-left: 14px;width: 125px;height: 60px;border:1px solid #e9e9e9;display: block;">
+                        <div
+                          style="text-overflow: ellipsis;font-size: 14px;font-weight: bold;width: 90%;margin-top: 8px;">
+                          {{item.name}}</div>
+                        <p
+                          style="width: 90%;margin-top: 8px;color:#666;font-size: 12px;white-space:nowrap;overflow: hidden;text-overflow:ellipsis">
+                          {{item.introduce}}</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </el-card>
+
+
+              <el-card>
+                热门主播
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-card>
+
+      </el-main>
+
+      <el-footer>Footer</el-footer>
+    </el-container>
+  </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  let v1 = new Vue({
+    el: '#music01',
+    data: function () {
+      return {
+        visible: false,
+        carouselArr: [
+          { add: "res/p1.jpg", add2: "res/p1_background.jpg" },
+          { add: "res/p2.jpg", add2: "res/p2_background.jpg" },
+          { add: "res/p3.jpg", add2: "res/p3_background.jpg" }],
+        carouselIndex: 0,
+        recommendArr: [
+          { backgroundImage: 'res/p1_1.jpg', count: '3511万', introduce: '温柔英文歌-睡觉专用' },
+          { backgroundImage: 'res/p1_2.jpg', count: '3111万', introduce: '『国摇』一百支乐队一百种精神信仰' },
+          { backgroundImage: 'res/p1_3.jpg', count: '1222万', introduce: '百首老歌：再续当年情' },
+          { backgroundImage: 'res/p1_4.jpg', count: '2333万', introduce: '成长篇 | 认识到自己的平凡，并且接受' }],
+        carouselArr2:
+          [
+            [
+              { span: 4, imgSrc: 'res/p2_1_1.jpg', introduce: 'Midnights (The Til Dawn Edition)', writter: 'Taylor Swift', padding_left: '20' },
+              { span: 5, imgSrc: 'res/p2_1_2.jpg', introduce: '滔滔', writter: '鹿先森乐队', padding_left: '35' },
+              { span: 5, imgSrc: 'res/p2_1_3.jpg', introduce: '瓦合', writter: '草东没有派对', padding_left: '25' },
+              { span: 5, imgSrc: 'res/p2_1_4.jpg', introduce: '麋鹿', writter: '梁静茹', padding_left: '15' },
+              { span: 5, imgSrc: 'res/p2_1_5.jpg', introduce: 'FAST X (Original Motion Picture Soundtrack)', writter: 'Fast & Furious: The Fast Saga', padding_left: '10' }
+            ]
+            ,
+            [
+              { span: 4, imgSrc: 'res/p2_1_1.jpg', introduce: 'Midnights (The Til Dawn Edition)', writter: 'Taylor Swift', padding_left: '20' },
+              { span: 5, imgSrc: 'res/p2_1_2.jpg', introduce: '滔滔', writter: '鹿先森乐队', padding_left: '35' },
+              { span: 5, imgSrc: 'res/p2_1_3.jpg', introduce: '瓦合', writter: '草东没有派对', padding_left: '25' },
+              { span: 5, imgSrc: 'res/p2_1_4.jpg', introduce: '麋鹿', writter: '梁静茹', padding_left: '15' },
+              { span: 5, imgSrc: 'res/p2_1_5.jpg', introduce: 'FAST X (Original Motion Picture Soundtrack)', writter: 'Fast & Furious: The Fast Saga', padding_left: '10' }
+            ]
+            ,
+            [
+              { span: 4, imgSrc: 'res/p2_1_1.jpg', introduce: 'Midnights (The Til Dawn Edition)', writter: 'Taylor Swift', padding_left: '20' },
+              { span: 5, imgSrc: 'res/p2_1_2.jpg', introduce: '滔滔', writter: '鹿先森乐队', padding_left: '35' },
+              { span: 5, imgSrc: 'res/p2_1_3.jpg', introduce: '瓦合', writter: '草东没有派对', padding_left: '25' },
+              { span: 5, imgSrc: 'res/p2_1_4.jpg', introduce: '麋鹿', writter: '梁静茹', padding_left: '15' },
+              { span: 5, imgSrc: 'res/p2_1_5.jpg', introduce: 'FAST X (Original Motion Picture Soundtrack)', writter: 'Fast & Furious: The Fast Saga', padding_left: '10' }
+            ]
+          ],
+        writterArr: [
+          { imgSrc: 'res/p3_1.jpg', name: '张惠妹aMEI', introduce: '台湾歌手张惠妹' },
+          { imgSrc: 'res/p3_2.jpg', name: '吴莫愁Momo', introduce: '《中国好声音》选手吴莫愁' },
+          { imgSrc: 'res/p3_3.jpg', name: '孙楠', introduce: '歌手孙楠 代表作《你快回来》《燃烧》' }]
+      }
+    },
+    methods: {
+      change1: (curIndex, nextIndex) => {
+        v1.carouselIndex = curIndex;
+      },
+      carouselArr2: (index) => {
+        if (index == 0) {
+          return '10';
+        } else {
+          return '20';
+        }
+
+      }
+    }
+  })
+</script>
+
+</html>
